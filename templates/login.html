@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Iniciar Sesión</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, #000000, #1a0000);
+    color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: #0d0d0d;
+    padding: 40px;
+    width: 360px;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255,0,0,0.5);
+    text-align: center;
+}
+
+h2 {
+    color: #b30000;
+    margin-bottom: 25px;
+    text-shadow: 0 0 15px rgba(179,0,0,0.7);
+}
+
+input {
+    width: 90%;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 25px;
+    border: 1px solid #660000;
+    background: #1a1a1a;
+    color: #ffffff;
+    outline: none;
+    font-size: 15px;
+}
+
+input::placeholder {
+    color: #cccccc;
+}
+
+input:focus {
+    box-shadow: 0 0 12px rgba(255,0,0,0.7);
+    border-color: #ff0000;
+}
+
+button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #660000, #b30000);
+    color: white;
+    box-shadow: 0 0 18px rgba(255,0,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 28px rgba(255,0,0,0.8);
+}
+
+a {
+    display: inline-block;
+    margin-top: 18px;
+    color: #ff4d4d;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
+.flash-message {
+    color: #ff9999;
+    margin-bottom: 12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>🔒 Iniciar sesión</h2>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+        <div class="flash-message">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+{% endwith %}
+
+    <form method="post">
+        <input name="correo" type="correo" placeholder="📧 Correo electrónico" required>
+        <input name="password" type="password" placeholder="🔑 Contraseña" required>
+        <button>Entrar 🚀</button>
+    </form>
+
+    <a href="/registro">Crear cuenta ✨</a> | <a href="/">Inicio 🏠</a>
+</div>
+
+</body>
+</html>
+

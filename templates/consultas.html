@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Consultas de Residuos ♻️</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, #000000, #1a0000);
+    color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+h2 {
+    color: #ff4d4d;
+    margin-bottom: 30px;
+    font-size: 32px;
+    text-shadow: 0 0 12px rgba(255, 0, 0, 0.6);
+}
+form {
+    margin-bottom: 35px;
+}
+input {
+    width: 200px;
+    padding: 12px 16px;
+    margin: 10px;
+    border-radius: 25px;
+    border: 1px solid #660000;
+    background: #1a1a1a;
+    color: #ffffff;
+    outline: none;
+    font-size: 14px;
+}
+input::placeholder { color: #cccccc; opacity: 0.8; }
+input:focus { box-shadow: 0 0 12px rgba(255, 0, 0, 0.7); border-color: #ff0000; }
+button {
+    padding: 12px 28px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #660000, #b30000);
+    color: white;
+    box-shadow: 0 0 18px rgba(255,0,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+button:hover { transform: scale(1.05); box-shadow: 0 0 28px rgba(255,0,0,0.8); }
+ul { list-style: none; padding: 0; }
+li {
+    background: #0d0d0d;
+    margin: 15px auto;
+    padding: 18px 20px;
+    max-width: 650px;
+    border-radius: 15px;
+    border-left: 6px solid #ff4d4d;
+    box-shadow: 0 0 18px rgba(255,0,0,0.3);
+    text-align: left;
+    color: #dddddd;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+li:hover { transform: translateY(-3px); box-shadow: 0 0 25px rgba(255,0,0,0.5); }
+a {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 28px;
+    text-decoration: none;
+    color: #ffffff;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #660000, #b30000);
+    box-shadow: 0 0 18px rgba(255,0,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+a:hover { transform: scale(1.05); box-shadow: 0 0 28px rgba(255,0,0,0.8); }
+li strong { color: #ff9999; font-size: 15px; }
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>📌 Consultas de Residuos ♻️</h2>
+
+<form method="get">
+    <input name="inicial" placeholder="Inicial ✏️">
+    <input name="apariencia" placeholder="Apariencia 👀">
+    <input name="ejempl" placeholder="Ejemplos 📦">
+    <button>🔍 Buscar</button>
+</form>
+
+<ul>
+{% for r in residuos %}
+    <li>
+        <strong>Tipo:</strong> {{ r.tipo }} ♻️<br>
+        <strong>Color:</strong> {{ r.color }} 🎨<br>
+        <strong>Ejemplos:</strong> {{ r.ejemplos }} 📌<br>
+
+        <!-- Formulario para eliminar residuo -->
+        <form action="{{ url_for('eliminar_residuo') }}" method="post" style="margin-top:10px;">
+            <input type="hidden" name="residuo_id" value="{{ r.id }}">
+            <input type="password" name="pass_eliminar" placeholder="Contraseña para eliminar" required>
+            <button type="submit" style="background:red;">Eliminar ❌</button>
+        </form>
+    </li>
+{% endfor %}
+</ul>
+
+<a href="/">🏠 Volver al inicio</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>🎮 Juego y Progreso Interactivo ♻️</title>
+
+<style>
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, #000000, #1a0000);
+    color: #f2f2f2;
+    text-align: center;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    padding: 30px;
+}
+
+h2, h3 {
+    color: #ff3333;
+    text-shadow: 0 0 8px rgba(255,0,0,0.6);
+}
+
+progress {
+    width: 320px;
+    height: 22px;
+    appearance: none;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+}
+
+progress::-webkit-progress-value {
+    background: linear-gradient(90deg, #660000, #ff4d4d);
+    border-radius: 12px;
+}
+
+#porcentaje {
+    margin-top: 6px;
+    font-weight: bold;
+    color: #ff6666;
+    font-size: 16px;
+}
+
+canvas {
+    background: radial-gradient(circle, #000000, #1a0000);
+    display: block;
+    margin: 20px auto;
+    border-radius: 14px;
+    box-shadow: 0 0 20px rgba(255,0,0,0.4);
+}
+
+button {
+    background: linear-gradient(135deg, #660000, #b30000);
+    color: #ffffff;
+    border: none;
+    padding: 12px 26px;
+    margin: 10px;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(255,0,0,0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255,0,0,0.8);
+}
+
+a {
+    display: inline-block;
+    margin: 6px;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #ffcccc;
+    border: 1px solid #660000;
+    border-radius: 20px;
+    transition: background 0.2s, color 0.2s;
+}
+
+a:hover {
+    background: #660000;
+    color: #ffffff;
+}
+
+p {
+    color: #dddddd;
+    font-size: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📊 Progreso ♻️</h2>
+<progress id="barra" value="0" max="100"></progress>
+<p id="porcentaje">0% 🏆</p>
+
+<h3>🎮 Juego Interactivo del Reciclaje ♻️</h3>
+<p>Paleta izquierda: Mouse 🖱️ | Paleta derecha: Flechas ⬆️⬇️</p>
+
+<canvas id="juego" width="500" height="300"></canvas>
+
+<button id="btnIniciar">▶️ Iniciar Juego</button>
+<button onclick="reiniciarJuego()">♻️ Reiniciar Juego</button>
+<br>
+<a href="/">🏠 Volver al Menú Principal</a>
+
+</div>
+
+<script>
+const canvas = document.getElementById("juego");
+const ctx = canvas.getContext("2d");
+const texto = document.getElementById("porcentaje");
+const barra = document.getElementById("barra");
+const btnIniciar = document.getElementById("btnIniciar");
+
+// ================= VARIABLES =================
+let radio = 8;
+let velocidad = 3;
+let puntos = 0;
+let progreso = 0;
+let juegoIniciado = false; // control para iniciar el juego
+
+// Paletas
+let paletaIzq = { x: 10, y: canvas.height/2 - 30, ancho: 10, alto: 60 };
+let paletaDer = { x: canvas.width - 20, y: canvas.height/2 - 30, ancho: 10, alto: 60 };
+let teclas = { arriba: false, abajo: false };
+
+// Pelota
+let pelota = { x: canvas.width/2, y: canvas.height/2, dx: velocidad, dy: velocidad, radio: radio };
+
+// ================= CONTROLES =================
+canvas.addEventListener("mousemove", e => {
+    if(juegoIniciado) {
+        const rect = canvas.getBoundingClientRect();
+        paletaIzq.y = e.clientY - rect.top - paletaIzq.alto/2;
+    }
+});
+
+document.addEventListener("keydown", e => {
+    if(e.key === "ArrowUp") teclas.arriba = true;
+    if(e.key === "ArrowDown") teclas.abajo = true;
+});
+document.addEventListener("keyup", e => {
+    if(e.key === "ArrowUp") teclas.arriba = false;
+    if(e.key === "ArrowDown") teclas.abajo = false;
+});
+
+// ================= FUNCIONES =================
+function dibujarRect(x,y,ancho,alto,color){
+    ctx.fillStyle = color;
+    ctx.fillRect(x,y,ancho,alto);
+}
+
+function dibujarPelota(){
+    ctx.beginPath();
+    ctx.arc(pelota.x, pelota.y, pelota.radio, 0, Math.PI*2);
+    ctx.fillStyle = "#ff3333";
+    ctx.fill();
+}
+
+function dibujarPuntos(){
+    ctx.fillStyle = "#ff6666";
+    ctx.font = "16px Arial";
+    ctx.fillText("Puntos: " + puntos + " 🎯", 380, 20);
+}
+
+function actualizarProgreso(){
+    progreso = puntos * 5;
+    if(progreso > 100) progreso = 100;
+    barra.value = progreso;
+    texto.textContent = progreso + "% 🏆";
+}
+
+function reiniciarJuego(){
+    puntos = 0;
+    pelota.x = canvas.width/2;
+    pelota.y = canvas.height/2;
+    pelota.dx = velocidad;
+    pelota.dy = velocidad;
+    paletaIzq.y = canvas.height/2 - paletaIzq.alto/2;
+    paletaDer.y = canvas.height/2 - paletaDer.alto/2;
+    actualizarProgreso();
+}
+
+// ================= ACTUALIZAR =================
+function actualizar(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    // Paletas
+    dibujarRect(paletaIzq.x,paletaIzq.y,paletaIzq.ancho,paletaIzq.alto,"#ffffff");
+    dibujarRect(paletaDer.x,paletaDer.y,paletaDer.ancho,paletaDer.alto,"#ffffff");
+
+    // Pelota
+    dibujarPelota();
+    dibujarPuntos();
+
+    if(juegoIniciado){
+        // Movimiento pelota
+        pelota.x += pelota.dx;
+        pelota.y += pelota.dy;
+
+        // Rebote superior e inferior
+        if(pelota.y + pelota.radio > canvas.height || pelota.y - pelota.radio < 0){
+            pelota.dy = -pelota.dy;
+        }
+
+        // Rebote paleta izquierda
+        if(pelota.x - pelota.radio < paletaIzq.x + paletaIzq.ancho &&
+           pelota.y > paletaIzq.y &&
+           pelota.y < paletaIzq.y + paletaIzq.alto){
+            pelota.dx = -pelota.dx;
+            puntos++;
+            actualizarProgreso();
+        }
+
+        // Rebote paleta derecha
+        if(pelota.x + pelota.radio > paletaDer.x &&
+           pelota.y > paletaDer.y &&
+           pelota.y < paletaDer.y + paletaDer.alto){
+            pelota.dx = -pelota.dx;
+            puntos++;
+            actualizarProgreso();
+        }
+
+        // Movimiento paleta derecha (teclas)
+        if(teclas.arriba && paletaDer.y > 0) paletaDer.y -= 5;
+        if(teclas.abajo && paletaDer.y + paletaDer.alto < canvas.height) paletaDer.y += 5;
+
+        // Game Over izquierda
+        if(pelota.x - pelota.radio < 0){
+            alert("💥 Game Over 😢\nPuntos: " + puntos + " 🎯");
+            reiniciarJuego();
+            juegoIniciado = false;
+        }
+
+        // Game Over derecha
+        if(pelota.x + pelota.radio > canvas.width){
+            alert("💥 Game Over 😢\nPuntos: " + puntos + " 🎯");
+            reiniciarJuego();
+            juegoIniciado = false;
+        }
+    }
+
+    requestAnimationFrame(actualizar);
+}
+
+// ================= INICIAR JUEGO =================
+btnIniciar.addEventListener("click", () => {
+    juegoIniciado = true;
+});
+
+actualizar();
+</script>
+
+</body>
+</html>

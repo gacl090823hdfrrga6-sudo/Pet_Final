@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Registro 📝</title>
+
+<style>
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, #000000, #1a0000);
+    color: #f2f2f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: #0d0d0d;
+    padding: 40px;
+    width: 350px;
+    border-radius: 20px;
+    box-shadow: 0 0 35px rgba(255,0,0,0.5);
+    text-align: center;
+}
+
+h2 {
+    color: #ff3333;
+    margin-bottom: 30px;
+    text-shadow: 0 0 15px rgba(255,0,0,0.7);
+}
+
+/* ===== INPUTS ===== */
+input {
+    width: 90%;
+    padding: 14px;
+    margin: 12px 0;
+    border-radius: 25px;
+    border: 1px solid #660000;
+    background: #1a1a1a;
+    color: #ffffff;
+    outline: none;
+    font-size: 15px;
+    transition: box-shadow 0.3s, border-color 0.3s;
+}
+
+input::placeholder {
+    color: #cccccc;
+}
+
+input:focus {
+    box-shadow: 0 0 12px rgba(255,0,0,0.8);
+    border-color: #ff0000;
+}
+
+/* ===== BOTÓN ===== */
+button {
+    width: 100%;
+    margin-top: 18px;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #b30000, #ff4d4d);
+    color: white;
+    box-shadow: 0 0 20px rgba(255,0,0,0.6);
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255,0,0,0.9);
+}
+
+/* ===== LINK ===== */
+a {
+    display: inline-block;
+    margin-top: 20px;
+    color: #ff6666;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: #ffffff;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>📝 Registro de Usuario</h2>
+
+    <form method="post">
+        <input name="nombre" placeholder="👤 Nombre real" required>
+        <input name="correo" placeholder="📧 Correo electrónico" required>
+        <input name="password" type="password" placeholder="🔒 Contraseña" required>
+        <button>✅ Registrar</button>
+    </form>
+
+    <a href="/login">🔑 Ir a Login</a>
+</div>
+
+</body>
+</html>
